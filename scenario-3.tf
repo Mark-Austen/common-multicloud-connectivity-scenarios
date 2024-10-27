@@ -52,7 +52,6 @@ resource "megaport_vxc" "aws_vxc_sin_1" {
 
   a_end = {
     requested_product_uid = megaport_mcr.mcr_1_sin.product_uid
-    ordered_vlan          = 301
   }
 
   b_end = {
@@ -105,7 +104,6 @@ resource "megaport_vxc" "gcp_vxc_sin_1" {
 
   a_end = {
     requested_product_uid = megaport_mcr.mcr_1_sin.product_uid
-    ordered_vlan          = 501
   }
 
   b_end = {}
@@ -114,6 +112,26 @@ resource "megaport_vxc" "gcp_vxc_sin_1" {
     partner = "google"
     google_config = {
       pairing_key = "<google partner interconnect pairing key>"
+    }
+  }
+}
+
+resource "megaport_vxc" "oracle_vxc_1_sin" {
+  product_name         = "Oracle Cloud VXC - Primary"
+  rate_limit           = 1000
+  contract_term_months = 1
+
+  a_end = {
+    requested_product_uid = megaport_mcr.mcr_1_sin.product_uid
+  }
+
+  b_end = {}
+
+  b_end_partner_config = {
+    partner = "oracle"
+    oracle_config = {
+      virtual_circuit_id = "<oracle cloud fastconnect virtual circuit id>"
+      diversity_zone     = "red"
     }
   }
 }
