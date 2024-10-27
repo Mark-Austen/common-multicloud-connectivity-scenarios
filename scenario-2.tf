@@ -179,3 +179,45 @@ resource "megaport_vxc" "gcp_vxc_2_sin" {
     }
   }
 }
+
+resource "megaport_vxc" "oracle_vxc_1_sin" {
+  product_name         = "Oracle Cloud VXC - Primary"
+  rate_limit           = 1000
+  contract_term_months = 1
+
+  a_end = {
+    requested_product_uid = megaport_lag_port.lag_1_sin.product_uid
+    ordered_vlan          = 601
+  }
+
+  b_end = {}
+
+  b_end_partner_config = {
+    partner = "oracle"
+    oracle_config = {
+      virtual_circuit_id = "<oracle cloud fastconnect virtual circuit id>"
+      diversity_zone     = "red"
+    }
+  }
+}
+
+resource "megaport_vxc" "oracle_vxc_2_sin" {
+  product_name         = "Oracle Cloud VXC - Secondary"
+  rate_limit           = 1000
+  contract_term_months = 1
+
+  a_end = {
+    requested_product_uid = megaport_lag_port.lag_1_sin.product_uid
+    ordered_vlan          = 602
+  }
+
+  b_end = {}
+
+  b_end_partner_config = {
+    partner = "oracle"
+    oracle_config = {
+      virtual_circuit_id = "<oracle cloud fastconnect virtual circuit id>"
+      diversity_zone     = "blue"
+    }
+  }
+}
