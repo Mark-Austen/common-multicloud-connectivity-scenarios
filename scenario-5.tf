@@ -107,7 +107,7 @@ resource "megaport_vxc" "azure_vxc_sin_1" {
     partner = "azure"
     azure_config = {
       port_choice = "primary"
-      service_key = "2afd2eba-3625-42af-a1b1-87c9b9d6dafb"
+      service_key = "<expressroute service key>"
         peers = [{
         type             = "private"
         vlan             = 401
@@ -134,7 +134,7 @@ resource "megaport_vxc" "azure_vxc_2_sin" {
     partner = "azure"
     azure_config = {
       port_choice = "secondary"
-      service_key = "2afd2eba-3625-42af-a1b1-87c9b9d6dafb"
+      service_key = "<expressroute service key>"
         peers = [{
         type             = "private"
         vlan             = 402
@@ -161,7 +161,7 @@ resource "megaport_vxc" "gcp_vxc_sin_1" {
   b_end_partner_config = {
     partner = "google"
     google_config = {
-      pairing_key = "7b0a16b5-d6aa-48cb-94f7-0696d4c3b088/asia-southeast1/1"
+      pairing_key = "<google cloud partner interconnect pairing key>"
     }
   }
 }
@@ -181,7 +181,7 @@ resource "megaport_vxc" "gcp_vxc_2_sin" {
   b_end_partner_config = {
     partner = "google"
     google_config = {
-      pairing_key = "6695140c-f6d3-46c7-a478-dc630a28ca5a/asia-southeast1/2"
+      pairing_key = "<google cloud partner interconnect pairing key>"
     }
   }
 }
