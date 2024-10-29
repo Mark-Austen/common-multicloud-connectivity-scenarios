@@ -2,6 +2,14 @@ data "megaport_location" "location_1" {
   name = "Equinix SG1"
 }
 
+data "megaport_location" "location_2" {
+  name = "Equinix SG2"
+}
+
+data "megaport_location" "location_3" {
+  name = "Global Switch Singapore - Tai Seng"
+}
+
 resource "megaport_port" "port_1_sin" {
   product_name           = "Port 1 SIN"
   port_speed             = 10000
@@ -11,10 +19,6 @@ resource "megaport_port" "port_1_sin" {
   diversity_zone         = "red"
 }
 
-data "megaport_location" "location_2" {
-  name = "Equinix SG2"
-}
-
 resource "megaport_port" "port_2_sin" {
   product_name           = "Port 2 SIN"
   port_speed             = 10000
@@ -22,10 +26,6 @@ resource "megaport_port" "port_2_sin" {
   contract_term_months   = 1
   marketplace_visibility = false
   diversity_zone         = "blue"
-}
-
-data "megaport_location" "location_3" {
-  name = "Global Switch Singapore - Tai Seng"
 }
 
 data "megaport_partner" "aws_port_1_sin" {
@@ -148,6 +148,13 @@ resource "megaport_vxc" "azure_vxc_2_sin" {
   }
 }
 
+data "megaport_partner" "google_port_1_sin" {
+  connect_type = "GOOGLE"
+  company_name = "Google inc.."
+  product_name = "Singapore (sin-zone1-2260)"
+  location_id  = data.megaport_location.location_1.id
+}
+
 resource "megaport_vxc" "gcp_vxc_1_sin" {
   product_name         = "Google Cloud VXC - Primary"
   rate_limit           = 50
@@ -158,7 +165,9 @@ resource "megaport_vxc" "gcp_vxc_1_sin" {
     ordered_vlan          = 501
   }
 
-  b_end = {}
+  b_end = {
+    requested_product_uid = data.megaport_partner.google_port_1_sin.product_uid
+  }
 
   b_end_partner_config = {
     partner = "google"
@@ -166,6 +175,13 @@ resource "megaport_vxc" "gcp_vxc_1_sin" {
       pairing_key = "<google partner interconnect pairing key>"
     }
   }
+}
+
+data "megaport_partner" "google_port_2_sin" {
+  connect_type = "GOOGLE"
+  company_name = "Google inc.."
+  product_name = "Singapore (sin-zone2-388)"
+  location_id  = data.megaport_location.location_3.id
 }
 
 resource "megaport_vxc" "gcp_vxc_2_sin" {
@@ -178,7 +194,9 @@ resource "megaport_vxc" "gcp_vxc_2_sin" {
     ordered_vlan          = 502
   }
 
-  b_end = {}
+  b_end = {
+    requested_product_uid = data.megaport_partner.google_port_1_sin.product_uid
+  }
 
   b_end_partner_config = {
     partner = "google"
