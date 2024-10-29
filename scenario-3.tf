@@ -2,6 +2,10 @@ data "megaport_location" "location_1" {
   name = "Equinix SG1"
 }
 
+data "megaport_location" "location_2" {
+  name = "Equinix SG2"
+}
+
 resource "megaport_port" "port_1_sin" {
   product_name           = "Port 1 SIN"
   port_speed             = 10000
@@ -32,10 +36,6 @@ resource "megaport_vxc" "port_1_sin_mcr_1_sin_vxc" {
   b_end = {
     requested_product_uid = megaport_mcr.mcr_1_sin.product_uid
   }
-}
-
-data "megaport_location" "location_2" {
-  name = "Equinix SG2"
 }
 
 data "megaport_partner" "aws_port_1_sin" {
@@ -97,6 +97,13 @@ resource "megaport_vxc" "azure_vxc_sin_1" {
   }
 }
 
+data "megaport_partner" "google_port_1_sin" {
+  connect_type = "GOOGLE"
+  company_name = "Google inc.."
+  product_name = "Singapore (sin-zone1-2260)"
+  location_id  = data.megaport_location.location_1.id
+}
+
 resource "megaport_vxc" "gcp_vxc_sin_1" {
   product_name         = "Google Cloud VXC - Primary"
   rate_limit           = 50
@@ -106,7 +113,9 @@ resource "megaport_vxc" "gcp_vxc_sin_1" {
     requested_product_uid = megaport_mcr.mcr_1_sin.product_uid
   }
 
-  b_end = {}
+  b_end = {
+    requested_product_uid = data.megaport_partner.google_port_1_sin.product_uid
+  }
 
   b_end_partner_config = {
     partner = "google"
