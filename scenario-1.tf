@@ -83,7 +83,7 @@ data "megaport_partner" "google_port_1_sin" {
   location_id  = data.megaport_location.location_1.id
 }
 
-resource "megaport_vxc" "gcp_vxc_1_sin" {
+resource "megaport_vxc" "google_vxc_1_sin" {
   product_name         = "Google Cloud VXC - Primary"
   rate_limit           = 50
   contract_term_months = 1
