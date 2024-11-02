@@ -25,14 +25,14 @@ resource "megaport_mve" "mve_location_1" {
   ]
 }
 
-data "megaport_partner" "internet_location_1" {
+data "megaport_partner" "internet_zone_red" {
   connect_type  = "TRANSIT"
   company_name  = "Networks"
   product_name  = "Megaport Internet"
   location_id   = data.megaport_location.location_2.id
 }
 
-resource "megaport_vxc" "transit_vxc_syd1" {
+resource "megaport_vxc" "transit_vxc_sin_1" {
   product_name         = "MVE 1 SIN - Internet VXC"
   rate_limit           = 100
   contract_term_months = 1
