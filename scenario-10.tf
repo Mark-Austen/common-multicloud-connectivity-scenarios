@@ -113,7 +113,14 @@ resource "megaport_vxc" "azure_vxc_sin_1" {
   }
 }
 
-resource "megaport_vxc" "gcp_vxc_sin_1" {
+data "megaport_partner" "google_port_1_sin" {
+  connect_type = "GOOGLE"
+  company_name = "Google inc.."
+  product_name = "Singapore (sin-zone1-2260)"
+  location_id  = data.megaport_location.location_1.id
+}
+
+resource "megaport_vxc" "google_vxc_sin_1" {
   product_name         = "Google Cloud VXC - Primary"
   rate_limit           = 50
   contract_term_months = 1
