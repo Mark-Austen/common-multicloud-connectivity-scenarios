@@ -15,7 +15,7 @@ resource "megaport_mve" "mve_location_1" {
     vendor         = "cisco"
     image_id       = 83
     product_size   = "SMALL"
-    ssh_public_key = "ssh-rsa public key"
+    ssh_public_key = "ssh-rsa <public key>"
   }
 
   vnics = [
