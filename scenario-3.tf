@@ -120,7 +120,7 @@ resource "megaport_vxc" "gcp_vxc_sin_1" {
   b_end_partner_config = {
     partner = "google"
     google_config = {
-      pairing_key = "<google partner interconnect pairing key>"
+      pairing_key = "<google cloud partner interconnect pairing key>"
     }
   }
 }
