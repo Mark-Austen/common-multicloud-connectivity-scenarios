@@ -35,13 +35,6 @@ data "megaport_partner" "aws_port_1_sin" {
   location_id  = data.megaport_location.location_2.id
 }
 
-data "megaport_partner" "aws_port_2_sin" {
-  connect_type = "AWSHC"
-  company_name = "AWS"
-  product_name = "Asia Pacific (Singapore) (ap-southeast-1)"
-  location_id  = data.megaport_location.location_3.id
-}
-
 resource "megaport_vxc" "aws_vxc_1_sin" {
   product_name         = "AWS VXC - Primary"
   rate_limit           = 50
@@ -66,6 +59,13 @@ resource "megaport_vxc" "aws_vxc_1_sin" {
       diversity_zone = "red"
     }
   }
+}
+
+data "megaport_partner" "aws_port_2_sin" {
+  connect_type = "AWSHC"
+  company_name = "AWS"
+  product_name = "Asia Pacific (Singapore) (ap-southeast-1)"
+  location_id  = data.megaport_location.location_3.id
 }
 
 resource "megaport_vxc" "aws_vxc_2_sin" {
@@ -101,6 +101,7 @@ resource "megaport_vxc" "azure_vxc_1_sin" {
 
   a_end = {
     requested_product_uid = megaport_port.port_1_sin.product_uid
+    ordered_vlan          = 401
   }
 
   b_end = {}
@@ -128,6 +129,7 @@ resource "megaport_vxc" "azure_vxc_2_sin" {
 
   a_end = {
     requested_product_uid = megaport_port.port_2_sin.product_uid
+    ordered_vlan          = 402
   }
 
   b_end = {}
@@ -139,7 +141,7 @@ resource "megaport_vxc" "azure_vxc_2_sin" {
       service_key = "<azure expressroute service key>"
         peers = [{
         type             = "private"
-        vlan             = 402
+        vlan             = 401
         peer_asn         = 65001
         primary_subnet   = "192.168.100.0/30"
         secondary_subnet = "192.168.100.4/30"
@@ -155,7 +157,7 @@ data "megaport_partner" "google_port_1_sin" {
   location_id  = data.megaport_location.location_1.id
 }
 
-resource "megaport_vxc" "gcp_vxc_1_sin" {
+resource "megaport_vxc" "google_vxc_1_sin" {
   product_name         = "Google Cloud VXC - Primary"
   rate_limit           = 50
   contract_term_months = 1
@@ -184,7 +186,7 @@ data "megaport_partner" "google_port_2_sin" {
   location_id  = data.megaport_location.location_3.id
 }
 
-resource "megaport_vxc" "gcp_vxc_2_sin" {
+resource "megaport_vxc" "google_vxc_2_sin" {
   product_name         = "Google Cloud VXC - Secondary"
   rate_limit           = 50
   contract_term_months = 1
