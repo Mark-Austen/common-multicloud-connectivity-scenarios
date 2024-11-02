@@ -42,7 +42,7 @@ resource "megaport_vxc" "transit_vxc_sin_1" {
   }
   
   b_end = {
-    requested_product_uid = data.megaport_partner.internet_location_1.product_uid
+    requested_product_uid = data.megaport_partner.internet_zone_red.product_uid
   }
   
   b_end_partner_config = {
