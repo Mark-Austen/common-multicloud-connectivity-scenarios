@@ -27,13 +27,6 @@ data "megaport_partner" "aws_port_1_sin" {
   location_id  = data.megaport_location.location_2.id
 }
 
-data "megaport_partner" "aws_port_2_sin" {
-  connect_type = "AWSHC"
-  company_name = "AWS"
-  product_name = "Asia Pacific (Singapore) (ap-southeast-1)"
-  location_id  = data.megaport_location.location_3.id
-}
-
 resource "megaport_vxc" "aws_vxc_1_sin" {
   product_name         = "AWS VXC - Primary"
   rate_limit           = 50
@@ -58,6 +51,13 @@ resource "megaport_vxc" "aws_vxc_1_sin" {
       diversity_zone = "red"
     }
   }
+}
+
+data "megaport_partner" "aws_port_2_sin" {
+  connect_type = "AWSHC"
+  company_name = "AWS"
+  product_name = "Asia Pacific (Singapore) (ap-southeast-1)"
+  location_id  = data.megaport_location.location_3.id
 }
 
 resource "megaport_vxc" "aws_vxc_2_sin" {
