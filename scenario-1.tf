@@ -55,6 +55,7 @@ resource "megaport_vxc" "azure_vxc_1_sin" {
 
   a_end = {
     requested_product_uid = megaport_port.port_1_sin.product_uid
+    ordered_vlan          = 401
   }
 
   b_end = {}
@@ -63,7 +64,7 @@ resource "megaport_vxc" "azure_vxc_1_sin" {
     partner = "azure"
     azure_config = {
       port_choice = "primary"
-      service_key = "<expressroute service key>"
+      service_key = "<azure expressroute service key>"
         peers = [{
         type             = "private"
         vlan             = 401
@@ -99,7 +100,7 @@ resource "megaport_vxc" "gcp_vxc_1_sin" {
   b_end_partner_config = {
     partner = "google"
     google_config = {
-      pairing_key = "<goole partner interconnect pairing key"
+      pairing_key = "<google cloud partner interconnect pairing key"
     }
   }
 }
