@@ -6,6 +6,10 @@ data "megaport_location" "location_2" {
   name = "Equinix SG2"
 }
 
+data "megaport_location" "location_3" {
+  name = "Global Switch Singapore - Tai Seng"
+}
+
 resource "megaport_port" "port_1_sin" {
   product_name           = "Port 1 SIN"
   port_speed             = 10000
@@ -23,7 +27,6 @@ resource "megaport_port" "port_2_sin" {
   marketplace_visibility = false
   diversity_zone         = "blue"
 }
-
 
 resource "megaport_mcr" "mcr_1_sin" {
   product_name         = "MCR 1 SIN"
@@ -63,7 +66,7 @@ resource "megaport_vxc" "port_2_sin_mcr_2_sin_vxc" {
 
   a_end = {
     requested_product_uid = megaport_port.port_2_sin.product_uid
-    ordered_vlan          = 101
+    ordered_vlan          = 102
   }
 
   b_end = {
@@ -76,17 +79,6 @@ data "megaport_partner" "aws_port_1_sin" {
   company_name = "AWS"
   product_name = "Asia Pacific (Singapore) (ap-southeast-1)"
   location_id  = data.megaport_location.location_2.id
-}
-
-data "megaport_location" "location_3" {
-  name = "Global Switch Singapore - Tai Seng"
-}
-
-data "megaport_partner" "aws_port_2_sin" {
-  connect_type = "AWSHC"
-  company_name = "AWS"
-  product_name = "Asia Pacific (Singapore) (ap-southeast-1)"
-  location_id  = data.megaport_location.location_3.id
 }
 
 resource "megaport_vxc" "aws_vxc_sin_1" {
@@ -112,6 +104,13 @@ resource "megaport_vxc" "aws_vxc_sin_1" {
       diversity_zone = "red"
     }
   }
+}
+
+data "megaport_partner" "aws_port_2_sin" {
+  connect_type = "AWSHC"
+  company_name = "AWS"
+  product_name = "Asia Pacific (Singapore) (ap-southeast-1)"
+  location_id  = data.megaport_location.location_3.id
 }
 
 resource "megaport_vxc" "aws_vxc_2_sin" {
@@ -184,7 +183,7 @@ resource "megaport_vxc" "azure_vxc_2_sin" {
       service_key = "<azure expressroute service key>"
         peers = [{
         type             = "private"
-        vlan             = 402
+        vlan             = 401
         peer_asn         = 65001
         primary_subnet   = "192.168.100.0/30"
         secondary_subnet = "192.168.100.4/30"
@@ -193,7 +192,14 @@ resource "megaport_vxc" "azure_vxc_2_sin" {
   }
 }
 
-resource "megaport_vxc" "gcp_vxc_sin_1" {
+data "megaport_partner" "google_port_1_sin" {
+  connect_type = "GOOGLE"
+  company_name = "Google inc.."
+  product_name = "Singapore (sin-zone1-2260)"
+  location_id  = data.megaport_location.location_1.id
+}
+
+resource "megaport_vxc" "google_vxc_sin_1" {
   product_name         = "Google Cloud VXC - Primary"
   rate_limit           = 50
   contract_term_months = 1
@@ -212,7 +218,14 @@ resource "megaport_vxc" "gcp_vxc_sin_1" {
   }
 }
 
-resource "megaport_vxc" "gcp_vxc_2_sin" {
+data "megaport_partner" "google_port_2_sin" {
+  connect_type = "GOOGLE"
+  company_name = "Google inc.."
+  product_name = "Singapore (sin-zone2-388)"
+  location_id  = data.megaport_location.location_3.id
+}
+
+resource "megaport_vxc" "google_vxc_2_sin" {
   product_name         = "Google Cloud VXC - Secondary"
   rate_limit           = 50
   contract_term_months = 1
