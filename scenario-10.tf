@@ -14,7 +14,6 @@ provider "megaport" {
   environment           = "production"
 }
 
-
 data "megaport_location" "location_1" {
   name = "Equinix SG1"
 }
