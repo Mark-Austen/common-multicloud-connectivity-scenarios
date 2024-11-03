@@ -1,3 +1,20 @@
+terraform {
+  required_providers {
+    megaport = {
+      source  = "megaport/megaport"
+      version = "1.2.0"
+    }
+  }
+}
+
+provider "megaport" {
+  access_key            = "<api access_key>"
+  secret_key            = "<api secret_key"
+  accept_purchase_terms = true
+  environment           = "production"
+}
+
+
 data "megaport_location" "location_1" {
   name = "Equinix SG1"
 }
