@@ -9,7 +9,7 @@ terraform {
 
 provider "megaport" {
   access_key            = "<api access_key>"
-  secret_key            = "<api secret_key"
+  secret_key            = "<api secret_key>"
   accept_purchase_terms = true
   environment           = "production"
 }
