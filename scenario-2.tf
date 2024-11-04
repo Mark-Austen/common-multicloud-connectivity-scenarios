@@ -216,6 +216,14 @@ resource "megaport_vxc" "google_vxc_2_sin" {
   }
 }
 
+data "megaport_partner" "oracle_port_1_sin" {
+  connect_type   = "ORACLE"
+  company_name   = "Oracle"
+  product_name   = "OCI (ap-singapore-1) (BMC)"
+  location_id    = data.megaport_location.location_1.id
+  diversity_zone = "red"
+}
+
 resource "megaport_vxc" "oracle_vxc_1_sin" {
   product_name         = "Oracle Cloud VXC - Primary"
   rate_limit           = 1000
@@ -226,15 +234,24 @@ resource "megaport_vxc" "oracle_vxc_1_sin" {
     ordered_vlan = 601
   }
 
-  b_end = {}
+  b_end = {
+    requested_product_uid = data.megaport_partner.oracle_port_1_sin.product_uid
+  }
 
   b_end_partner_config = {
     partner = "oracle"
     oracle_config = {
       virtual_circuit_id = "<oracle cloud fastconnect virtual circuit id>"
-      diversity_zone     = "red"
     }
   }
+}
+
+data "megaport_partner" "oracle_port_2_sin" {
+  connect_type   = "ORACLE"
+  company_name   = "Oracle"
+  product_name   = "OCI (ap-singapore-1) (BMC)"
+  location_id    = data.megaport_location.location_1.id
+  diversity_zone = "blue"
 }
 
 resource "megaport_vxc" "oracle_vxc_2_sin" {
@@ -247,13 +264,14 @@ resource "megaport_vxc" "oracle_vxc_2_sin" {
     ordered_vlan = 602
   }
 
-  b_end = {}
+  b_end = {
+    requested_product_uid = data.megaport_partner.oracle_port_2_sin.product_uid
+  }
 
   b_end_partner_config = {
     partner = "oracle"
     oracle_config = {
       virtual_circuit_id = "<oracle cloud fastconnect virtual circuit id>"
-      diversity_zone     = "blue"
     }
   }
 }
