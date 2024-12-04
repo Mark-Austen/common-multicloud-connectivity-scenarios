@@ -2,7 +2,7 @@ terraform {
   required_providers {
     megaport = {
       source  = "megaport/megaport"
-      version = "1.2.0"
+      version = "1.2.4"
     }
   }
 }
@@ -26,8 +26,8 @@ data "megaport_location" "location_3" {
   name = "Global Switch Singapore - Tai Seng"
 }
 
-resource "megaport_lag_port" "lag_1_sin" {
-  product_name           = "LAG 1 SIN"
+resource "megaport_lag_port" "lag_port_1_sin" {
+  product_name           = "LAG Port 1 SIN"
   port_speed             = 10000
   location_id            = data.megaport_location.location_1.id
   contract_term_months   = 1
@@ -37,10 +37,11 @@ resource "megaport_lag_port" "lag_1_sin" {
 }
 
 data "megaport_partner" "aws_port_1_sin" {
-  connect_type = "AWSHC"
-  company_name = "AWS"
-  product_name = "Asia Pacific (Singapore) (ap-southeast-1)"
-  location_id  = data.megaport_location.location_2.id
+  connect_type   = "AWSHC"
+  company_name   = "AWS"
+  product_name   = "Asia Pacific (Singapore) (ap-southeast-1)"
+  location_id    = data.megaport_location.location_2.id
+  diversity_zone = "red"
 }
 
 resource "megaport_vxc" "aws_vxc_1_sin" {
@@ -49,7 +50,7 @@ resource "megaport_vxc" "aws_vxc_1_sin" {
   contract_term_months = 1
 
   a_end = {
-    requested_product_uid = megaport_lag_port.lag_1_sin.product_uid
+    requested_product_uid = megaport_lag_port.lag_port_1_sin.product_uid
     ordered_vlan = 301
   }
 
@@ -60,20 +61,20 @@ resource "megaport_vxc" "aws_vxc_1_sin" {
   b_end_partner_config = {
     partner = "aws"
     aws_config = {
-      name           = "AWS VXC - Primary"
-      type           = "private"
-      connect_type   = "AWSHC"
-      owner_account  = "<aws account id>"
-      diversity_zone = "red"
+      name          = "AWS VXC - Primary"
+      type          = "private"
+      connect_type  = "AWSHC"
+      owner_account = "<aws account id>"
     }
   }
 }
 
 data "megaport_partner" "aws_port_2_sin" {
-  connect_type = "AWSHC"
-  company_name = "AWS"
-  product_name = "Asia Pacific (Singapore) (ap-southeast-1)"
-  location_id  = data.megaport_location.location_3.id
+  connect_type   = "AWSHC"
+  company_name   = "AWS"
+  product_name   = "Asia Pacific (Singapore) (ap-southeast-1)"
+  location_id    = data.megaport_location.location_3.id
+  diversity_zone = "blue"
 }
 
 resource "megaport_vxc" "aws_vxc_2_sin" {
@@ -82,7 +83,7 @@ resource "megaport_vxc" "aws_vxc_2_sin" {
   contract_term_months = 1
 
   a_end = {
-    requested_product_uid = megaport_lag_port.lag_1_sin.product_uid
+    requested_product_uid = megaport_lag_port.lag_port_1_sin.product_uid
     ordered_vlan = 302
   }
 
@@ -93,11 +94,10 @@ resource "megaport_vxc" "aws_vxc_2_sin" {
   b_end_partner_config = {
     partner = "aws"
     aws_config = {
-      name           = "AWS VXC - Secondary"
-      type           = "private"
-      connect_type   = "AWSHC"
-      owner_account  = "<aws account id>"
-      diversity_zone = "blue"
+      name          = "AWS VXC - Secondary"
+      type          = "private"
+      connect_type  = "AWSHC"
+      owner_account = "<aws account id>"
     }
   }
 }
@@ -108,7 +108,7 @@ resource "megaport_vxc" "azure_vxc_1_sin" {
   contract_term_months = 1
 
   a_end = {
-    requested_product_uid = megaport_lag_port.lag_1_sin.product_uid
+    requested_product_uid = megaport_lag_port.lag_port_1_sin.product_uid
     ordered_vlan = 401
   }
 
@@ -119,13 +119,6 @@ resource "megaport_vxc" "azure_vxc_1_sin" {
     azure_config = {
       port_choice = "primary"
       service_key = "<azure expressroute service key>"
-        peers = [{
-        type             = "private"
-        vlan             = 401
-        peer_asn         = 65001
-        primary_subnet   = "192.168.100.0/30"
-        secondary_subnet = "192.168.100.4/30"
-      }]
     }
   }
 }
@@ -136,7 +129,7 @@ resource "megaport_vxc" "azure_vxc_2_sin" {
   contract_term_months = 1
 
   a_end = {
-    requested_product_uid = megaport_lag_port.lag_1_sin.product_uid
+    requested_product_uid = megaport_lag_port.lag_port_1_sin.product_uid
     ordered_vlan = 402
   }
 
@@ -147,13 +140,6 @@ resource "megaport_vxc" "azure_vxc_2_sin" {
     azure_config = {
       port_choice = "secondary"
       service_key = "<azure expressroute service key>"
-        peers = [{
-        type             = "private"
-        vlan             = 401
-        peer_asn         = 65001
-        primary_subnet   = "192.168.100.0/30"
-        secondary_subnet = "192.168.100.4/30"
-      }]
     }
   }
 }
@@ -171,7 +157,7 @@ resource "megaport_vxc" "google_vxc_1_sin" {
   contract_term_months = 1
 
   a_end = {
-    requested_product_uid = megaport_lag_port.lag_1_sin.product_uid
+    requested_product_uid = megaport_lag_port.lag_port_1_sin.product_uid
     ordered_vlan = 501
   }
 
@@ -200,7 +186,7 @@ resource "megaport_vxc" "google_vxc_2_sin" {
   contract_term_months = 1
 
   a_end = {
-    requested_product_uid = megaport_lag_port.lag_1_sin.product_uid
+    requested_product_uid = megaport_lag_port.lag_port_1_sin.product_uid
     ordered_vlan = 502
   }
 
@@ -230,7 +216,7 @@ resource "megaport_vxc" "oracle_vxc_1_sin" {
   contract_term_months = 1
 
   a_end = {
-    requested_product_uid = megaport_lag_port.lag_1_sin.product_uid
+    requested_product_uid = megaport_lag_port.lag_port_1_sin.product_uid
     ordered_vlan = 601
   }
 
@@ -260,7 +246,7 @@ resource "megaport_vxc" "oracle_vxc_2_sin" {
   contract_term_months = 1
 
   a_end = {
-    requested_product_uid = megaport_lag_port.lag_1_sin.product_uid
+    requested_product_uid = megaport_lag_port.lag_port_1_sin.product_uid
     ordered_vlan = 602
   }
 
