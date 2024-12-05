@@ -46,7 +46,7 @@ resource "megaport_vxc" "port_1_sin_mcr_1_sin_vxc" {
 
   a_end = {
     requested_product_uid = megaport_port.port_1_sin.product_uid
-    ordered_vlan          = 101
+    ordered_vlan = 101
   }
 
   b_end = {
@@ -55,10 +55,10 @@ resource "megaport_vxc" "port_1_sin_mcr_1_sin_vxc" {
 }
 
 data "megaport_partner" "aws_port_1_sin" {
-  connect_type = "AWSHC"
-  company_name = "AWS"
-  product_name = "Asia Pacific (Singapore) (ap-southeast-1)"
-  location_id  = data.megaport_location.location_2.id
+  connect_type   = "AWSHC"
+  company_name   = "AWS"
+  product_name   = "Asia Pacific (Singapore) (ap-southeast-1)"
+  location_id    = data.megaport_location.location_2.id
   diversity_zone = "red"
 }
 
@@ -76,7 +76,7 @@ resource "megaport_vxc" "aws_vxc_sin_1" {
     vrouter_config = {
       interfaces = [
         {
-          ip_addresses     = ["192.168.50.1/30"]
+          ip_addresses = ["192.168.50.1/30"]
           bgp_connections = [
             {
               peer_asn         = 64512
@@ -98,18 +98,18 @@ resource "megaport_vxc" "aws_vxc_sin_1" {
   b_end_partner_config = {
     partner = "aws"
     aws_config = {
-      name           = "AWS VXC - Primary"
-      type           = "private"
-      connect_type   = "AWSHC"
-      owner_account  = "<aws account id>"
+      name          = "AWS VXC - Primary"
+      type          = "private"
+      connect_type  = "AWSHC"
+      owner_account = "<aws account id>"
     }
   }
 }
 
 resource "megaport_vxc" "azure_vxc_sin_1" {
-  product_name            = "Azure VXC - Primary"
-  rate_limit              = 50
-  contract_term_months    = 1
+  product_name         = "Azure VXC - Primary"
+  rate_limit           = 50
+  contract_term_months = 1
 
   a_end = {
     requested_product_uid = megaport_mcr.mcr_1_sin.product_uid
@@ -183,7 +183,7 @@ resource "megaport_vxc" "oracle_vxc_1_sin" {
     vrouter_config = {
       interfaces = [
         {
-          ip_addresses     = ["192.168.70.1/30"]
+          ip_addresses = ["192.168.70.1/30"]
           bgp_connections = [
             {
               peer_asn         = 31898
