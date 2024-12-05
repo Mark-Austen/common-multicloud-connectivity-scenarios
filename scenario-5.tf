@@ -188,7 +188,7 @@ resource "megaport_vxc" "azure_vxc_2_sin" {
     partner = "azure"
     azure_config = {
       port_choice = "secondary"
-      service_key = "<azure expressroute service key>
+      service_key = "<azure expressroute service key>"
         peers = [{
         type             = "private"
         vlan             = 401
