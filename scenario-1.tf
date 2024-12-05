@@ -32,10 +32,10 @@ resource "megaport_port" "port_1_sin" {
 }
 
 data "megaport_partner" "aws_port_1_sin" {
-  connect_type = "AWSHC"
-  company_name = "AWS"
-  product_name = "Asia Pacific (Singapore) (ap-southeast-1)"
-  location_id  = data.megaport_location.location_2.id
+  connect_type   = "AWSHC"
+  company_name   = "AWS"
+  product_name   = "Asia Pacific (Singapore) (ap-southeast-1)"
+  location_id    = data.megaport_location.location_2.id
   diversity_zone = "red"
 }
 
@@ -56,10 +56,10 @@ resource "megaport_vxc" "aws_vxc_1_sin" {
   b_end_partner_config = {
     partner = "aws"
     aws_config = {
-      name           = "AWS VXC - Primary"
-      type           = "private"
-      connect_type   = "AWSHC"
-      owner_account  = "<aws account id>"
+      name          = "AWS VXC - Primary"
+      type          = "private"
+      connect_type  = "AWSHC"
+      owner_account = "<aws account id>"
     }
   }
 }
