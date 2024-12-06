@@ -83,7 +83,6 @@ resource "megaport_vxc" "aws_vxc_sin_1" {
               local_ip_address = "192.168.50.1"
               peer_ip_address  = "192.168.50.2"
               password         = "password"
-              shutdown         = false
             }
           ]
         }
@@ -189,7 +188,6 @@ resource "megaport_vxc" "oracle_vxc_1_sin" {
               peer_asn         = 31898
               local_ip_address = "192.168.70.1"
               peer_ip_address  = "192.168.70.2"
-              shutdown         = false
             }
           ]
         }
