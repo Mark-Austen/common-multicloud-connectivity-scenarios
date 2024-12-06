@@ -195,7 +195,9 @@ resource "megaport_vxc" "oracle_vxc_1_sin" {
     }
   }
 
-  b_end = {}
+  b_end = {
+    requested_product_uid = data.megaport_partner.oracle_port_1_sin.product_uid
+  }
 
   b_end_partner_config = {
     partner = "oracle"
