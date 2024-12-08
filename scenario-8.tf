@@ -2,14 +2,14 @@ terraform {
   required_providers {
     megaport = {
       source  = "megaport/megaport"
-      version = "1.2.0"
+      version = "1.2.4"
     }
   }
 }
 
 provider "megaport" {
   access_key            = "<api access_key>"
-  secret_key            = "<api secret_key"
+  secret_key            = "<api secret_key>"
   accept_purchase_terms = true
   environment           = "production"
 }
@@ -67,7 +67,7 @@ resource "megaport_vxc" "port_1_sin_mcr_1_sin_vxc" {
 
   a_end = {
     requested_product_uid = megaport_port.port_1_sin.product_uid
-    ordered_vlan          = 101
+    ordered_vlan = 101
   }
 
   b_end = {
@@ -82,7 +82,7 @@ resource "megaport_vxc" "port_2_sin_mcr_2_sin_vxc" {
 
   a_end = {
     requested_product_uid = megaport_port.port_2_sin.product_uid
-    ordered_vlan          = 102
+    ordered_vlan = 102
   }
 
   b_end = {
@@ -91,10 +91,11 @@ resource "megaport_vxc" "port_2_sin_mcr_2_sin_vxc" {
 }
 
 data "megaport_partner" "aws_port_1_sin" {
-  connect_type = "AWSHC"
-  company_name = "AWS"
-  product_name = "Asia Pacific (Singapore) (ap-southeast-1)"
-  location_id  = data.megaport_location.location_2.id
+  connect_type   = "AWSHC"
+  company_name   = "AWS"
+  product_name   = "Asia Pacific (Singapore) (ap-southeast-1)"
+  location_id    = data.megaport_location.location_2.id
+  diversity_zone = "red"
 }
 
 resource "megaport_vxc" "aws_vxc_sin_1" {
@@ -104,6 +105,25 @@ resource "megaport_vxc" "aws_vxc_sin_1" {
 
   a_end = {
     requested_product_uid = megaport_mcr.mcr_1_sin.product_uid
+  }
+
+  a_end_partner_config = {
+    partner = "vrouter"
+    vrouter_config = {
+      interfaces = [
+        {
+          ip_addresses     = ["192.168.50.1/30"]
+          bgp_connections = [
+            {
+              peer_asn         = 64512
+              local_ip_address = "192.168.50.1"
+              peer_ip_address  = "192.168.50.2"
+              password         = "password"
+            }
+          ]
+        }
+      ]
+    }
   }
 
   b_end = {
@@ -123,10 +143,11 @@ resource "megaport_vxc" "aws_vxc_sin_1" {
 }
 
 data "megaport_partner" "aws_port_2_sin" {
-  connect_type = "AWSHC"
-  company_name = "AWS"
-  product_name = "Asia Pacific (Singapore) (ap-southeast-1)"
-  location_id  = data.megaport_location.location_3.id
+  connect_type   = "AWSHC"
+  company_name   = "AWS"
+  product_name   = "Asia Pacific (Singapore) (ap-southeast-1)"
+  location_id    = data.megaport_location.location_3.id
+  diversity_zone = "blue"
 }
 
 resource "megaport_vxc" "aws_vxc_2_sin" {
@@ -136,6 +157,25 @@ resource "megaport_vxc" "aws_vxc_2_sin" {
 
   a_end = {
     requested_product_uid = megaport_mcr.mcr_2_sin.product_uid
+  }
+
+ a_end_partner_config = {
+    partner = "vrouter"
+    vrouter_config = {
+      interfaces = [
+        {
+          ip_addresses     = ["192.168.51.1/30"]
+          bgp_connections = [
+            {
+              peer_asn         = 64512
+              local_ip_address = "192.168.51.1"
+              peer_ip_address  = "192.168.51.2"
+              password         = "password"
+            }
+          ]
+        }
+      ]
+    }
   }
 
   b_end = {
@@ -155,9 +195,9 @@ resource "megaport_vxc" "aws_vxc_2_sin" {
 }
 
 resource "megaport_vxc" "azure_vxc_sin_1" {
-  product_name            = "Azure VXC - Primary"
-  rate_limit              = 50
-  contract_term_months    = 1
+  product_name         = "Azure VXC - Primary"
+  rate_limit           = 50
+  contract_term_months = 1
 
   a_end = {
     requested_product_uid = megaport_mcr.mcr_1_sin.product_uid
@@ -182,9 +222,9 @@ resource "megaport_vxc" "azure_vxc_sin_1" {
 }
 
 resource "megaport_vxc" "azure_vxc_2_sin" {
-  product_name            = "Azure VXC - Secondary"
-  rate_limit              = 50
-  contract_term_months    = 1
+  product_name         = "Azure VXC - Secondary"
+  rate_limit           = 50
+  contract_term_months = 1
 
   a_end = {
     requested_product_uid = megaport_mcr.mcr_2_sin.product_uid
@@ -224,12 +264,14 @@ resource "megaport_vxc" "google_vxc_sin_1" {
     requested_product_uid = megaport_mcr.mcr_1_sin.product_uid
   }
 
-  b_end = {}
+  b_end = {
+    requested_product_uid = data.megaport_partner.google_port_1_sin.product_uid  
+  }
 
   b_end_partner_config = {
     partner = "google"
     google_config = {
-      pairing_key = "<google cloud partner interconnect service key>"
+      pairing_key = "<google partner interconnect pairing key>"
     }
   }
 }
@@ -250,14 +292,24 @@ resource "megaport_vxc" "google_vxc_2_sin" {
     requested_product_uid = megaport_mcr.mcr_2_sin.product_uid
   }
 
-  b_end = {}
+  b_end = {
+    requested_product_uid = data.megaport_partner.google_port_2_sin.product_uid
+  }
 
   b_end_partner_config = {
     partner = "google"
     google_config = {
-      pairing_key = "<google cloud partner interconnect service key>"
+      pairing_key = "<google partner interconnect pairing key>"
     }
   }
+}
+
+data "megaport_partner" "oracle_port_1_sin" {
+  connect_type   = "ORACLE"
+  company_name   = "Oracle"
+  product_name   = "OCI (ap-singapore-1) (BMC)"
+  location_id    = data.megaport_location.location_1.id
+  diversity_zone = "red"
 }
 
 resource "megaport_vxc" "oracle_vxc_1_sin" {
@@ -269,15 +321,42 @@ resource "megaport_vxc" "oracle_vxc_1_sin" {
     requested_product_uid = megaport_mcr.mcr_1_sin.product_uid
   }
 
-  b_end = {}
+ a_end_partner_config = {
+    partner = "vrouter"
+    vrouter_config = {
+      interfaces = [
+        {
+          ip_addresses     = ["192.168.70.1/30"]
+          bgp_connections = [
+            {
+              peer_asn         = 31898
+              local_ip_address = "192.168.70.1"
+              peer_ip_address  = "192.168.70.2"
+            }
+          ]
+        }
+      ]
+    }
+  }
+
+  b_end = {
+    requested_product_uid = data.megaport_partner.oracle_port_1_sin.product_uid
+  }
 
   b_end_partner_config = {
     partner = "oracle"
     oracle_config = {
       virtual_circuit_id = "<oracle cloud fastconnect virtual circuit id>"
-      diversity_zone     = "red"
     }
   }
+}
+
+data "megaport_partner" "oracle_port_2_sin" {
+  connect_type   = "ORACLE"
+  company_name   = "Oracle"
+  product_name   = "OCI (ap-singapore-1) (BMC)"
+  location_id    = data.megaport_location.location_1.id
+  diversity_zone = "blue"
 }
 
 resource "megaport_vxc" "oracle_vxc_2_sin" {
@@ -289,13 +368,32 @@ resource "megaport_vxc" "oracle_vxc_2_sin" {
     requested_product_uid = megaport_mcr.mcr_2_sin.product_uid
   }
 
-  b_end = {}
+ a_end_partner_config = {
+    partner = "vrouter"
+    vrouter_config = {
+      interfaces = [
+        {
+          ip_addresses     = ["192.168.71.1/30"]
+          bgp_connections = [
+            {
+              peer_asn         = 31898
+              local_ip_address = "192.168.71.1"
+              peer_ip_address  = "192.168.71.2"
+            }
+          ]
+        }
+      ]
+    }
+  }
+
+  b_end = {
+    requested_product_uid = data.megaport_partner.oracle_port_2_sin.product_uid
+  }
 
   b_end_partner_config = {
     partner = "oracle"
     oracle_config = {
       virtual_circuit_id = "<oracle cloud fastconnect virtual circuit id>"
-      diversity_zone     = "blue"
     }
   }
 }
