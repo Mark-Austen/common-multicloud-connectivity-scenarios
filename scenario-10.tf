@@ -31,7 +31,7 @@ resource "megaport_mve" "mve_location_1" {
     vendor         = "cisco"
     image_id       = 83
     product_size   = "SMALL"
-    ssh_public_key = "ssh-rsa "
+    ssh_public_key = "ssh-rsa <public key> "
   }
 
   vnics = [
@@ -42,10 +42,10 @@ resource "megaport_mve" "mve_location_1" {
 }
 
 data "megaport_partner" "internet_zone_red" {
-  connect_type  = "TRANSIT"
-  company_name  = "Networks"
-  product_name  = "Megaport Internet"
-  location_id   = data.megaport_location.location_2.id
+  connect_type = "TRANSIT"
+  company_name = "Networks"
+  product_name = "Megaport Internet"
+  location_id  = data.megaport_location.location_2.id
 }
 
 resource "megaport_vxc" "transit_vxc_sin_1" {
