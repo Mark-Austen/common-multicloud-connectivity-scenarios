@@ -30,6 +30,7 @@ resource "megaport_mve" "mve_1_sin" {
   location_id          = data.megaport_location.location_1.id
   product_name         = "MVE 1 SIN"
   contract_term_months = 1
+  diversity_zone       = "red"
 
   vendor_config = {
     vendor         = "cisco"
@@ -49,6 +50,7 @@ resource "megaport_mve" "mve_2_sin" {
   location_id          = data.megaport_location.location_2.id
   product_name         = "MVE 2 SIN"
   contract_term_months = 1
+  diversity_zone       = "blue"
 
   vendor_config = {
     vendor         = "cisco"
@@ -129,8 +131,8 @@ resource "megaport_vxc" "aws_vxc_sin_1" {
 
   a_end = {
     requested_product_uid = megaport_mve.mve_1_sin.product_uid
-    inner_vlan = 301
-    vnic_index = 0
+    inner_vlan            = 301
+    vnic_index            = 0
   }
 
   b_end = {
@@ -163,8 +165,8 @@ resource "megaport_vxc" "aws_vxc_sin_2" {
 
   a_end = {
     requested_product_uid = megaport_mve.mve_2_sin.product_uid
-    inner_vlan = 302
-    vnic_index = 0
+    inner_vlan            = 302
+    vnic_index            = 0
   }
 
   b_end = {
@@ -189,8 +191,8 @@ resource "megaport_vxc" "azure_vxc_sin_1" {
 
   a_end = {
     requested_product_uid = megaport_mve.mve_1_sin.product_uid
-    inner_vlan = 401
-    vnic_index = 0
+    inner_vlan            = 401
+    vnic_index            = 0
   }
 
   b_end = {}
@@ -211,8 +213,8 @@ resource "megaport_vxc" "azure_vxc_sin_2" {
 
   a_end = {
     requested_product_uid = megaport_mve.mve_2_sin.product_uid
-    inner_vlan = 402
-    vnic_index = 0
+    inner_vlan            = 402
+    vnic_index            = 0
   }
 
   b_end = {}
@@ -240,8 +242,8 @@ resource "megaport_vxc" "google_vxc_sin_1" {
 
   a_end = {
     requested_product_uid = megaport_mve.mve_1_sin.product_uid
-    inner_vlan = 501
-    vnic_index = 0
+    inner_vlan            = 501
+    vnic_index            = 0
   }
 
   b_end = {
@@ -270,8 +272,8 @@ resource "megaport_vxc" "google_vxc_sin_2" {
 
   a_end = {
     requested_product_uid = megaport_mve.mve_2_sin.product_uid
-    inner_vlan = 502
-    vnic_index = 0
+    inner_vlan            = 502
+    vnic_index            = 0
   }
 
   b_end = {
@@ -301,8 +303,8 @@ resource "megaport_vxc" "oracle_vxc_1_sin" {
 
   a_end = {
     requested_product_uid = megaport_mve.mve_1_sin.product_uid
-    inner_vlan = 601
-    vnic_index = 0
+    inner_vlan            = 601
+    vnic_index            = 0
   }
 
   b_end = {
@@ -332,8 +334,8 @@ resource "megaport_vxc" "oracle_vxc_2_sin" {
 
   a_end = {
     requested_product_uid = megaport_mve.mve_2_sin.product_uid
-    inner_vlan = 602
-    vnic_index = 0
+    inner_vlan            = 602
+    vnic_index            = 0
   }
 
   b_end = {
