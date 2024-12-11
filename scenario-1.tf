@@ -99,7 +99,7 @@ resource "megaport_vxc" "google_vxc_1_sin" {
 
   a_end = {
     requested_product_uid = megaport_port.port_1_sin.product_uid
-    ordered_vlan = 501
+    ordered_vlan          = 501
   }
 
   b_end = {
@@ -129,7 +129,7 @@ resource "megaport_vxc" "oracle_vxc_1_sin" {
 
   a_end = {
     requested_product_uid = megaport_port.port_1_sin.product_uid
-    ordered_vlan = 601
+    ordered_vlan          = 601
   }
 
   b_end = {
