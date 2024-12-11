@@ -344,7 +344,6 @@ resource "megaport_vxc" "oracle_vxc_2_sin" {
     partner = "oracle"
     oracle_config = {
       virtual_circuit_id = "<oracle cloud fastconnect virtual circuit id>"
-      diversity_zone     = "blue"
     }
   }
 }
