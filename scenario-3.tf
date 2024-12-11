@@ -46,7 +46,7 @@ resource "megaport_vxc" "port_1_sin_mcr_1_sin_vxc" {
 
   a_end = {
     requested_product_uid = megaport_port.port_1_sin.product_uid
-    ordered_vlan = 101
+    ordered_vlan          = 101
   }
 
   b_end = {
