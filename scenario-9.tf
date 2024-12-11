@@ -85,7 +85,7 @@ resource "megaport_vxc" "port_1_sin_mcr_1_sin_vxc" {
 
   a_end = {
     requested_product_uid = megaport_port.port_1_sin.product_uid
-    ordered_vlan = 101
+    ordered_vlan          = 101
   }
 
   b_end = {
@@ -100,7 +100,7 @@ resource "megaport_vxc" "port_2_sin_mcr_2_sin_vxc" {
 
   a_end = {
     requested_product_uid = megaport_port.port_2_sin.product_uid
-    ordered_vlan = 102
+    ordered_vlan          = 102
   }
 
   b_end = {
@@ -115,7 +115,7 @@ resource "megaport_vxc" "port_3_sin_mcr_1_sin_vxc" {
 
   a_end = {
     requested_product_uid = megaport_port.port_3_sin.product_uid
-    ordered_vlan = 103
+    ordered_vlan          = 103
   }
 
   b_end = {
@@ -130,7 +130,7 @@ resource "megaport_vxc" "port_4_sin_mcr_2_sin_vxc" {
 
   a_end = {
     requested_product_uid = megaport_port.port_4_sin.product_uid
-    ordered_vlan = 104
+    ordered_vlan          = 104
   }
 
   b_end = {
