@@ -64,7 +64,7 @@ resource "megaport_vxc" "aws_vxc_sin_1" {
     vrouter_config = {
       interfaces = [
         {
-          ip_addresses     = ["192.168.50.1/30"]
+          ip_addresses = ["192.168.50.1/30"]
           bgp_connections = [
             {
               peer_asn         = 64512
@@ -115,7 +115,7 @@ resource "megaport_vxc" "aws_vxc_2_sin" {
     vrouter_config = {
       interfaces = [
         {
-          ip_addresses     = ["192.168.51.1/30"]
+          ip_addresses = ["192.168.51.1/30"]
           bgp_connections = [
             {
               peer_asn         = 64512
@@ -276,7 +276,7 @@ resource "megaport_vxc" "oracle_vxc_1_sin" {
     vrouter_config = {
       interfaces = [
         {
-          ip_addresses     = ["192.168.70.1/30"]
+          ip_addresses = ["192.168.70.1/30"]
           bgp_connections = [
             {
               peer_asn         = 31898
@@ -323,7 +323,7 @@ resource "megaport_vxc" "oracle_vxc_2_sin" {
     vrouter_config = {
       interfaces = [
         {
-          ip_addresses     = ["192.168.71.1/30"]
+          ip_addresses = ["192.168.71.1/30"]
           bgp_connections = [
             {
               peer_asn         = 31898
