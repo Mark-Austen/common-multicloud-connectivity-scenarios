@@ -2,14 +2,14 @@ terraform {
   required_providers {
     megaport = {
       source  = "megaport/megaport"
-      version = "1.2.0"
+      version = "1.2.4"
     }
   }
 }
 
 provider "megaport" {
   access_key            = "<api access_key>"
-  secret_key            = "<api secret_key"
+  secret_key            = "<api secret_key>"
   accept_purchase_terms = true
   environment           = "production"
 }
@@ -22,10 +22,11 @@ data "megaport_location" "location_2" {
   name = "Equinix SG2"
 }
 
-resource "megaport_mve" "mve_location_1" {
+resource "megaport_mve" "mve_1_sin" {
   location_id          = data.megaport_location.location_1.id
   product_name         = "MVE 1 SIN"
   contract_term_months = 1
+  diversity_zone       = "red"
 
   vendor_config = {
     vendor         = "cisco"
@@ -42,10 +43,10 @@ resource "megaport_mve" "mve_location_1" {
 }
 
 data "megaport_partner" "internet_zone_red" {
-  connect_type  = "TRANSIT"
-  company_name  = "Networks"
-  product_name  = "Megaport Internet"
-  location_id   = data.megaport_location.location_2.id
+  connect_type = "TRANSIT"
+  company_name = "Networks"
+  product_name = "Megaport Internet"
+  location_id  = data.megaport_location.location_2.id
 }
 
 resource "megaport_vxc" "transit_vxc_sin_1" {
@@ -54,7 +55,7 @@ resource "megaport_vxc" "transit_vxc_sin_1" {
   contract_term_months = 1
   
   a_end = {
-    requested_product_uid = megaport_mve.mve_location_1.product_uid
+    requested_product_uid = megaport_mve.mve_1_sin.product_uid
   }
   
   b_end = {
@@ -82,21 +83,22 @@ resource "megaport_vxc" "port_1_sin_mve_1_sin_vxc" {
 
   a_end = {
     requested_product_uid = megaport_port.port_1_sin.product_uid
-    ordered_vlan          = 101
+    ordered_vlan = 101
   }
 
   b_end = {
-    requested_product_uid = megaport_mcr.mve_1_sin.product_uid
-    inner_vlan            = 101
-    vnic_index            = 0
+    requested_product_uid = megaport_mve.mve_1_sin.product_uid
+    inner_vlan = 101
+    vnic_index = 0
   }
 }
 
 data "megaport_partner" "aws_port_1_sin" {
-  connect_type = "AWSHC"
-  company_name = "AWS"
-  product_name = "Asia Pacific (Singapore) (ap-southeast-1)"
-  location_id  = data.megaport_location.location_2.id
+  connect_type   = "AWSHC"
+  company_name   = "AWS"
+  product_name   = "Asia Pacific (Singapore) (ap-southeast-1)"
+  location_id    = data.megaport_location.location_2.id
+  diversity_zone = "red"
 }
 
 resource "megaport_vxc" "aws_vxc_sin_1" {
@@ -105,9 +107,9 @@ resource "megaport_vxc" "aws_vxc_sin_1" {
   contract_term_months = 1
 
   a_end = {
-    requested_product_uid = megaport_mve.mve_location_1.product_uid
-    inner_vlan            = 301
-    vnic_index            = 0
+    requested_product_uid = megaport_mve.mve_1_sin.product_uid
+    inner_vlan = 301
+    vnic_index = 0
   }
 
   b_end = {
@@ -117,24 +119,23 @@ resource "megaport_vxc" "aws_vxc_sin_1" {
   b_end_partner_config = {
     partner = "aws"
     aws_config = {
-      name           = "AWS VXC - Primary"
-      type           = "private"
-      connect_type   = "AWSHC"
-      owner_account  = "<aws account id>"
-      diversity_zone = "red"
+      name          = "AWS VXC - Primary"
+      type          = "private"
+      connect_type  = "AWSHC"
+      owner_account = "<aws account id>"
     }
   }
 }
 
 resource "megaport_vxc" "azure_vxc_sin_1" {
-  product_name            = "Azure VXC - Primary"
-  rate_limit              = 50
-  contract_term_months    = 1
+  product_name         = "Azure VXC - Primary"
+  rate_limit           = 50
+  contract_term_months = 1
 
   a_end = {
-    requested_product_uid = megaport_mve.mve_location_1.product_uid
-    inner_vlan            = 401
-    vnic_index            = 0
+    requested_product_uid = megaport_mve.mve_1_sin.product_uid
+    inner_vlan = 401
+    vnic_index = 0
   }
 
   b_end = {}
@@ -144,13 +145,6 @@ resource "megaport_vxc" "azure_vxc_sin_1" {
     azure_config = {
       port_choice = "primary"
       service_key = "<azure expressroute service key>"
-        peers = [{
-        type             = "private"
-        vlan             = 401
-        peer_asn         = 65001
-        primary_subnet   = "192.168.100.0/30"
-        secondary_subnet = "192.168.100.4/30"
-      }]
     }
   }
 }
@@ -168,19 +162,29 @@ resource "megaport_vxc" "google_vxc_sin_1" {
   contract_term_months = 1
 
   a_end = {
-    requested_product_uid = megaport_mve.mve_location_1.product_uid
-    inner_vlan            = 501
-    vnic_index            = 0
+    requested_product_uid = megaport_mve.mve_1_sin.product_uid
+    inner_vlan = 501
+    vnic_index = 0
   }
 
-  b_end = {}
+  b_end = {
+    requested_product_uid = data.megaport_partner.google_port_1_sin.product_uid 
+  }
 
   b_end_partner_config = {
     partner = "google"
     google_config = {
-      pairing_key = "<google cloud partner interconnect pairing key"
+      pairing_key = "<google partner interconnect pairing key>"
     }
   }
+}
+
+data "megaport_partner" "oracle_port_1_sin" {
+  connect_type   = "ORACLE"
+  company_name   = "Oracle"
+  product_name   = "OCI (ap-singapore-1) (BMC)"
+  location_id    = data.megaport_location.location_1.id
+  diversity_zone = "red"
 }
 
 resource "megaport_vxc" "oracle_vxc_1_sin" {
@@ -189,18 +193,19 @@ resource "megaport_vxc" "oracle_vxc_1_sin" {
   contract_term_months = 1
 
   a_end = {
-    requested_product_uid = megaport_mve.mve_location_1.product_uid
-    inner_vlan            = 601
-    vnic_index            = 0
+    requested_product_uid = megaport_mve.mve_1_sin.product_uid
+    inner_vlan = 601
+    vnic_index = 0
   }
 
-  b_end = {}
+  b_end = {
+    requested_product_uid = data.megaport_partner.oracle_port_1_sin.product_uid
+  }
 
   b_end_partner_config = {
     partner = "oracle"
     oracle_config = {
       virtual_circuit_id = "<oracle cloud fastconnect virtual circuit id>"
-      diversity_zone     = "red"
     }
   }
 }
