@@ -83,13 +83,13 @@ resource "megaport_vxc" "port_1_sin_mve_1_sin_vxc" {
 
   a_end = {
     requested_product_uid = megaport_port.port_1_sin.product_uid
-    ordered_vlan = 101
+    ordered_vlan          = 101
   }
 
   b_end = {
     requested_product_uid = megaport_mve.mve_1_sin.product_uid
-    inner_vlan = 101
-    vnic_index = 0
+    inner_vlan            = 101
+    vnic_index            = 0
   }
 }
 
@@ -108,8 +108,8 @@ resource "megaport_vxc" "aws_vxc_sin_1" {
 
   a_end = {
     requested_product_uid = megaport_mve.mve_1_sin.product_uid
-    inner_vlan = 301
-    vnic_index = 0
+    inner_vlan            = 301
+    vnic_index            = 0
   }
 
   b_end = {
@@ -134,8 +134,8 @@ resource "megaport_vxc" "azure_vxc_sin_1" {
 
   a_end = {
     requested_product_uid = megaport_mve.mve_1_sin.product_uid
-    inner_vlan = 401
-    vnic_index = 0
+    inner_vlan            = 401
+    vnic_index            = 0
   }
 
   b_end = {}
@@ -163,8 +163,8 @@ resource "megaport_vxc" "google_vxc_sin_1" {
 
   a_end = {
     requested_product_uid = megaport_mve.mve_1_sin.product_uid
-    inner_vlan = 501
-    vnic_index = 0
+    inner_vlan            = 501
+    vnic_index            = 0
   }
 
   b_end = {
@@ -194,8 +194,8 @@ resource "megaport_vxc" "oracle_vxc_1_sin" {
 
   a_end = {
     requested_product_uid = megaport_mve.mve_1_sin.product_uid
-    inner_vlan = 601
-    vnic_index = 0
+    inner_vlan            = 601
+    vnic_index            = 0
   }
 
   b_end = {
